@@ -1,15 +1,25 @@
 <template>
-  <header>
-    <div id="logo">
-      <img src="@/assets/images/logo.png">
-    </div>
+  <header :class="{ transparent }">
+    <router-link :to="{ name: 'Home' }">
+      <div id="logo">
+        <img src="@/assets/images/logo.png">
+      </div>
+    </router-link>
 
-    <portal-target name="header" />
+    <div class="flex">
+      <slot />
+    </div>
   </header>
 </template>
 
 <script>
 export default {
+  props: {
+    transparent: {
+      type: Boolean,
+      default: false
+    }
+  }
 }
 </script>
 
@@ -26,6 +36,9 @@ export default {
     padding: 0 20px;
     background-color: $white;
     z-index: 999;
+    &.transparent {
+      background-color: transparent;
+    }
     #logo {
       display: block;
       img {

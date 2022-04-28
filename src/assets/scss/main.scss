@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
 
+@import 'reset.scss';
+
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   min-height: 100%;
   font-weight: 200;
+  font-family: 'Rubik', sans-serif;
 }
 
 * {
@@ -51,6 +54,10 @@ html, body {
   align-items: center;
 }
 
+.w-full {
+  width: 100%;
+}
+
 .mt-20 {
   margin-top: 20px;
 }
@@ -69,4 +76,8 @@ html, body {
 
 .shrink-none {
   flex-shrink: 0;
+}
+
+b {
+  font-weight: bold;
 }

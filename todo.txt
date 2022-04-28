@@ -1,4 +1,12 @@
+TO DO
 - Landing page
+- 404 page
+- portrait mode
+- desktop version
+
+DONE
+- before leave
 - Play page (choose game)
 - Game
-- 404 page
+- new game data from local storage
+- resume game (store game info in localstorage)

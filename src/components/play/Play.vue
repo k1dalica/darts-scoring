@@ -2,46 +2,75 @@
   <div id="play">
     <Header />
 
-    <label>Select game:</label>
+    <vs-alert
+      v-if="hasAutoSave"
+      gradient
+    >
+      <template #title>
+        Resume game
+      </template>
+      Hello there! We've noticed that you have unfinished game. Would you like to resume it?
+      <div class="flex-center">
+        <vs-button
+          danger
+          @click="cancelResume()"
+        >
+          Cancel
+        </vs-button>
 
+        <vs-button
+          dark
+          shadow
+          @click="resumeGame()"
+        >
+          Resume
+        </vs-button>
+      </div>
+    </vs-alert>
+
+    <label>Select game:</label>
     <div class="flex-center">
-      <vs-button
-        v-for="option in gameOptions"
-        :key="option"
-        flat
-        :active="game === option"
-        @click="game = option"
-      >
-        {{ option }}
-      </vs-button>
+      <vs-button-group>
+        <vs-button
+          v-for="option in gameOptions"
+          :key="option"
+          flat
+          :active="game === option"
+          @click="game = option"
+        >
+          {{ option }}
+        </vs-button>
+      </vs-button-group>
     </div>
 
     <label class="mt-20">Rounds:</label>
-
     <div class="flex-center">
-      <vs-button
-        v-for="option in roundOptions"
-        :key="option"
-        flat
-        :active="rounds === option"
-        @click="rounds = option"
-      >
-        {{ option }}
-      </vs-button>
+      <vs-button-group>
+        <vs-button
+          v-for="option in roundOptions"
+          :key="option"
+          flat
+          :active="rounds === option"
+          @click="rounds = option"
+        >
+          {{ option }}
+        </vs-button>
+      </vs-button-group>
     </div>
 
     <label class="mt-20">Sets:</label>
-
     <div class="flex-center">
-      <vs-button
-        v-for="set in setOptions"
-        :key="set"
-        flat
-        :active="sets === set"
-        @click="sets = set"
-      >
-        {{ set }}
-      </vs-button>
+      <vs-button-group>
+        <vs-button
+          v-for="set in setOptions"
+          :key="set"
+          flat
+          :active="sets === set"
+          @click="sets = set"
+        >
+          {{ set }}
+        </vs-button>
+      </vs-button-group>
     </div>
 
     <label class="mt-20">Players:</label>
@@ -99,9 +128,11 @@ export default {
 
   data () {
     return {
+      hasAutoSave: false,
+
       game: 501,
       rounds: 15,
-      sets: 2,
+      sets: 1,
       players: [
         {
           name: ''
@@ -119,14 +150,31 @@ export default {
 
   methods: {
     start () {
-      this.$store.commit('game/set', {
+      const payload = {
         game: this.game,
         sets: this.sets,
         rounds: this.rounds,
-        players: this.players
-      })
+        players: this.players.map((player, index) => ({
+          name: player.name || `Player ${index + 1}`
+        }))
+      }
+
+      this.$store.commit('game/set', payload)
+
+      window.localStorage.setItem('last-game-data', JSON.stringify(payload))
+      window.localStorage.removeItem('autosave')
 
       this.$router.push({ name: 'Game' })
+    },
+
+    resumeGame () {
+      this.$router.push({ name: 'Game', query: { resume: 'yes' } })
+    },
+
+    cancelResume () {
+      this.hasAutoSave = false
+      window.localStorage.removeItem('autosave')
+      window.localStorage.getItem('autosave')
     },
 
     addPlayer () {
@@ -137,6 +185,18 @@ export default {
 
     removePlayer (index) {
       this.players.splice(index, 1)
+    }
+  },
+
+  created () {
+    this.hasAutoSave = !!window.localStorage.getItem('autosave')
+    let lastGameData = window.localStorage.getItem('last-game-data')
+    if (lastGameData) {
+      lastGameData = JSON.parse(lastGameData)
+      this.game = lastGameData.game
+      this.sets = lastGameData.sets
+      this.rounds = lastGameData.rounds
+      this.players = lastGameData.players
     }
   }
 }

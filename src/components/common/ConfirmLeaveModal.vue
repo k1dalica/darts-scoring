@@ -1,0 +1,34 @@
+<template>
+  <vs-dialog
+    :value="true"
+    width="550px"
+    not-center
+    prevent-close
+  >
+    <template #header>
+      <h4 class="not-margin">
+        Hey there! 🙋‍♂️
+      </h4>
+    </template>
+
+    <div class="con-content">
+      <p>
+        Are you sure you want to leave?
+      </p>
+    </div>
+
+    <template #footer>
+      <div class="w-full flex-center">
+        <vs-button
+          flat
+          @click="$emit('close')"
+        >
+          Cancel
+        </vs-button>
+        <vs-button @click="$emit('leave')">
+          Leave game
+        </vs-button>
+      </div>
+    </template>
+  </vs-dialog>
+</template>
