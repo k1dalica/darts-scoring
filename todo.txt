@@ -1,10 +1,10 @@
 TO DO
-- Landing page
 - 404 page
-- portrait mode
+- landscape mode
 - desktop version
 
 DONE
+- Landing page
 - before leave
 - Play page (choose game)
 - Game
