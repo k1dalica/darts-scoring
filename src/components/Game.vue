@@ -56,7 +56,7 @@ export default {
 <style lang="scss" scoped>
 .wrapper {
   width: 100%;
-  padding: 100px 50px;
+  padding: 100px 15px;
   display: flex;
   justify-content: center;
 }

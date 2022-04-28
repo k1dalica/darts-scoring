@@ -1,0 +1,4 @@
+- Landing page
+- Play page (choose game)
+- Game
+- 404 page

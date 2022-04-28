@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h1>Darts Scoring</h1>
+    <h1>Darts 501 Scoring</h1>
 
     <div class="label">
       Choose Game
@@ -17,58 +17,6 @@
         {{ item }}
       </el-button>
     </el-button-group>
-
-    <div class="label">
-      Rounds
-    </div>
-    <el-button-group>
-      <el-button
-        v-for="item in rounds"
-        :key="item"
-        :type="settings.rounds === item ? 'primary' : ''"
-        size="medium"
-        round
-        @click="settings.rounds = item"
-      >
-        {{ item }}
-      </el-button>
-    </el-button-group>
-
-    <div class="label">
-      Add Players
-      <el-button
-        type="primary"
-        icon="el-icon-plus"
-        size="mini"
-        circle
-        @click="addPlayer()"
-      />
-    </div>
-    <div
-      v-for="(player, index) in settings.players"
-      :key="index"
-      class="player-input"
-    >
-      <el-input
-        v-model="settings.players[index].name"
-        :placeholder="`Player ${index + 1} name`"
-      >
-        <el-button
-          v-if="settings.players.length > 1"
-          slot="append"
-          type="info"
-          icon="el-icon-close"
-          @click="removePlayer(index)"
-        />
-      </el-input>
-    </div>
-    <el-button
-      class="submit"
-      type="success"
-      @click="$emit('start')"
-    >
-      Play
-    </el-button>
   </div>
 </template>
 

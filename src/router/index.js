@@ -1,14 +1,30 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Game from '../components/Game'
+import Home from '@/components/home/Home'
+import Play from '@/components/play/Play'
+import Game from '@/components/game/Game501'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '*',
+    path: '/',
+    name: 'Home',
+    component: Home
+  },
+  {
+    path: '/play',
+    name: 'Play',
+    component: Play
+  },
+  {
+    path: '/game',
     name: 'Game',
     component: Game
+  },
+  {
+    path: '*',
+    redirect: '/'
   }
 ]
 
