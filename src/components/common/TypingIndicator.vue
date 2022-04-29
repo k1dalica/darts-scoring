@@ -26,14 +26,15 @@ export default {
     display: inline-block;
     margin-left: 3px;
     width: 15px;
-    border-width: 2px;
+    height: 20px;
+    border-bottom-width: 3px;
     border-style: solid;
     animation-name: indicator;
     animation-duration: 1s;
     animation-iteration-count: infinite;
     &.small {
       width: 11px;
-      border-width: 1px;
+      border-bottom-width: 2px;
       margin-left: 2px;
     }
     &.dark {

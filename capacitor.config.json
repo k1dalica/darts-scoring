@@ -1,0 +1,6 @@
+{
+  "appId": "com.example.app",
+  "appName": "darts-scoring",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}

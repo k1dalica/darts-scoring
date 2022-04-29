@@ -1,7 +1,8 @@
 <template>
   <vs-dialog
     :value="true"
-    width="550px"
+    not-close
+    auto-width
     not-center
     prevent-close
   >

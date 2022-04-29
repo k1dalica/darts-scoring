@@ -70,23 +70,29 @@ export default {
     margin: 0 10px 10px 10px;
     border-radius: 20px;
     background-color: $dark;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
     .value {
-      height: 50px;
+      min-height: 50px;
       line-height: 50px;
+      flex-grow: 1;
       color: $white;
       text-align: center;
       font-weight: 700;
       font-size: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .digits {
       padding: 10px;
       border-radius: 20px;
       background-color: $darker;
       display: flex;
-      justify-content: space-between;
       flex-wrap: wrap;
       .digit {
-        width: calc((100% - 10px) / 3);
+        width: calc(100% / 3);
         height: 50px;
         line-height: 50px;
         color: #fff;

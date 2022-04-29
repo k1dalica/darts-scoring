@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/components/home/Home'
 import Play from '@/components/play/Play'
 import Game from '@/components/game/Game501'
+import Page404 from '@/components/pages/Page404'
 
 Vue.use(VueRouter)
 
@@ -24,7 +25,8 @@ const routes = [
   },
   {
     path: '*',
-    redirect: '/'
+    name: '404',
+    component: Page404
   }
 ]
 

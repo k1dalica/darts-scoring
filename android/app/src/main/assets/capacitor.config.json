@@ -1,0 +1,11 @@
+{
+	"appId": "com.example.app",
+	"appName": "dartsscoring",
+	"webDir": "dist",
+	"bundledWebRuntime": false,
+	"server": {
+		"allowNavigation": [
+			"*.unpkg.com"
+		]
+	}
+}

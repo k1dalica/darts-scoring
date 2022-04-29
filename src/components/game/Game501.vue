@@ -22,85 +22,88 @@
       </router-link>
     </Header>
 
-    <div class="game-info">
-      <div class="row">
-        <span class="label">Sets</span>
-        <span class="text">
-          {{ set }}
-          <small v-if="sets !== 'Unlimited'">/{{ sets }}</small>
-        </span>
-      </div>
-      <div class="row xl">
-        <span class="label">Game</span>
-        <span class="text">{{ game }}</span>
-      </div>
-      <div class="row">
-        <span class="label">Round</span>
-        <span class="text">
-          {{ round }}
-          <small v-if="rounds !== 'Unlimited'">/{{ rounds }}</small>
-        </span>
-      </div>
-    </div>
-
-    <div class="scoreboard">
-      <div class="players">
-        <div
-          v-for="player, index in players"
-          :key="index"
-          class="player"
-          :class="{ selected: index === playersTurnIndex }"
-        >
-          <div class="info">
-            <span class="index">{{ index + 1 }}.</span>
-            <div class="player-info">
-              <span class="name">
-                {{ player.name }}
-              </span>
-              <span class="other">
-                <span class="item">Avg: {{ player.avg }}</span>
-                <span
-                  v-if="player.wins"
-                  class="item"
-                >
-                  Wins:
-                  <i
-                    v-for="w in player.wins"
-                    :key="w"
-                    class="bx bxs-crown"
-                  />
-                </span>
-              </span>
-            </div>
-          </div>
-
-          <span class="score">
-            {{ player.score }}
+    <div class="content">
+      <div class="game-info">
+        <div class="row">
+          <span class="label">Sets</span>
+          <span class="text">
+            {{ set }}
+            <small v-if="sets !== 'Unlimited'">/{{ sets }}</small>
+          </span>
+        </div>
+        <div class="row xl">
+          <span class="label">Game</span>
+          <span class="text">{{ game }}</span>
+        </div>
+        <div class="row">
+          <span class="label">Round</span>
+          <span class="text">
+            {{ round }}
+            <small v-if="rounds !== 'Unlimited'">/{{ rounds }}</small>
           </span>
         </div>
       </div>
 
-      <div class="history">
-        <div
-          v-for="item, index in history"
-          :key="index"
-          class="row"
-        >
-          <small>{{ index + 1 }}.</small> {{ item }}
+      <div class="scoreboard">
+        <div class="players">
+          <div
+            v-for="(player, index) in players"
+            :key="index"
+            class="player"
+            :class="{ selected: index === playersTurnIndex }"
+          >
+            <div class="info">
+              <span class="index">{{ index + 1 }}.</span>
+              <div class="player-info">
+                <span class="name">
+                  {{ player.name }}
+                </span>
+                <span class="other">
+                  <span class="item">Avg: {{ player.avg }}</span>
+                  <span
+                    v-if="player.wins"
+                    class="item"
+                  >
+                    Wins:
+                    <i
+                      v-for="w in player.wins"
+                      :key="w"
+                      class="bx bxs-crown"
+                    />
+                  </span>
+                </span>
+              </div>
+            </div>
+
+            <span class="score">
+              {{ player.score }}
+            </span>
+          </div>
         </div>
-        <div class="row">
-          <small>{{ history.length + 1 }}.</small>
-          {{ value }}<typing-indicator
-            v-if="value < 100"
-            small
-            dark
-          />
+
+        <div class="history">
+          <div
+            v-for="(item, index) in history"
+            :key="index"
+            class="row"
+          >
+            <small>{{ index + 1 }}.</small> {{ item }}
+          </div>
+          <div class="row">
+            <small>{{ history.length + 1 }}.</small>
+            {{ value }}<typing-indicator
+              v-if="value < 100"
+              small
+              dark
+            />
+          </div>
         </div>
       </div>
     </div>
 
     <digits
       v-model="value"
+      class="digits"
       @submit="submit()"
     />
 
@@ -122,7 +125,7 @@
     />
 
     <confirm-leave-modal
-      v-if="leavePrompt"
+      v-if="!!leavePrompt"
       @leave="leaveGame()"
       @close="leavePrompt = false"
     />
@@ -146,7 +149,7 @@ export default {
       return next()
     }
 
-    this.leavePrompt = true
+    this.leavePrompt = next
   },
 
   components: {
@@ -362,11 +365,11 @@ export default {
 
     cancelResume () {
       this.askResume = false
-      window.localStorage.removeItem('autosave')
       this.leaveGame()
     },
 
     leaveGame () {
+      if (typeof this.leavePrompt === 'function') return this.leavePrompt()
       this.$router.push({ name: 'Play' })
     }
   }
@@ -378,117 +381,140 @@ export default {
     height: 100%;
     padding: 70px 0 0 0;
     box-sizing: border-box;
-    .game-info {
-      height: 55px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .row {
-        width: calc(100% / 3);
-        text-align: center;
-        .label {
-          display: block;
-          color: $black;
-          font-weight: 400;
-          font-size: 14px;
-          line-height: 1;
-          text-transform: uppercase;
-        }
-        .text {
-          display: block;
-          color: $black;
-          font-size: 27px;
-          font-weight: 900;
-          line-height: 1;
-          small {
-            font-weight: 800;
-            font-size: 18px;
-            color: $tertiary;
-          }
-        }
-        &.xl {
+    .content {
+      height: calc(100% - 280px);
+      .game-info {
+        height: 55px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .row {
+          width: calc(100% / 3);
+          text-align: center;
           .label {
-            font-size: 16px;
+            display: block;
+            color: $black;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 1;
+            text-transform: uppercase;
           }
           .text {
-            font-size: 39px;
+            display: block;
+            color: $black;
+            font-size: 27px;
+            font-weight: 900;
+            line-height: 1;
+            small {
+              font-weight: 800;
+              font-size: 18px;
+              color: $tertiary;
+            }
+          }
+          &.xl {
+            .label {
+              font-size: 16px;
+            }
+            .text {
+              font-size: 39px;
+            }
+          }
+        }
+      }
+      .scoreboard {
+        display: flex;
+        height: calc(100%  - 55px);
+        padding: 20px 10px 20px 10px;
+        .players {
+          width: calc(100% - 80px);
+          height: 100%;
+          overflow-y: auto;
+          border-right: 1px solid #cdddef;
+          padding: 10px 10px 0 0;
+          .player {
+            height: 45px;
+            padding: 0 10px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .info {
+              display: flex;
+              align-items: center;
+              .index {
+                font-weight: 700;
+                font-size: 14px;
+                color: $tertiary;
+                margin-right: 7px;
+              }
+              .player-info {
+                .name {
+                  display: block;
+                  font-size: 18px;
+                  font-weight: 500;
+                }
+                .other {
+                  font-size: 12px;
+                  font-weight: 400;
+                  color: $secondary;
+                  .item {
+                    margin-right: 5px;
+                  }
+                }
+              }
+            }
+            .score {
+              font-size: 20px;
+              font-weight: 500;
+              color: $secondary;
+            }
+            &.selected {
+              background-color: $lighter;
+              .score {
+                color: $primary;
+                font-size: 25px;
+                font-weight: 600;
+              }
+            }
+          }
+        }
+        .history {
+          width: 80px;
+          padding: 10px 0 10px 10px;
+          max-height: 100%;
+          overflow-y: auto;
+          .row {
+            color: $black;
+            font-size: 20px;
+            font-weight: 500;
+            small {
+              font-weight: 700;
+              font-size: 14px;
+              color: $tertiary;
+            }
           }
         }
       }
     }
-    .scoreboard {
+  }
+
+  @media (orientation: landscape) {
+    .game {
       display: flex;
-      height: calc(100% - 280px - 55px);
-      padding: 20px 10px 20px 10px;
-      .players {
-        width: calc(100% - 80px);
+      padding-top: 60px;
+      .content {
+        width: 100%;
         height: 100%;
-        overflow-y: auto;
-        border-right: 1px solid #cdddef;
-        padding: 10px 10px 0 0;
-        .player {
-          height: 45px;
-          padding: 0 10px;
-          border-radius: 10px;
-          margin-bottom: 5px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          .info {
-            display: flex;
-            align-items: center;
-            .index {
-              font-weight: 700;
-              font-size: 14px;
-              color: $tertiary;
-              margin-right: 7px;
-            }
-            .player-info {
-              .name {
-                display: block;
-                font-size: 18px;
-                font-weight: 500;
-              }
-              .other {
-                font-size: 12px;
-                font-weight: 400;
-                color: $secondary;
-                .item {
-                  margin-right: 5px;
-                }
-              }
-            }
-          }
-          .score {
-            font-size: 20px;
-            font-weight: 500;
-            color: $secondary;
-          }
-          &.selected {
-            background-color: $lighter;
-            .score {
-              color: $primary;
-              font-size: 25px;
-              font-weight: 600;
-            }
-          }
+        .scoreboard {
+          padding-right: 0;
+          padding-top: 10px;
+          padding-bottom: 10px;
         }
       }
-      .history {
-        width: 80px;
-        padding: 10px 0 10px 10px;
-        max-height: 100%;
-        overflow-y: auto;
-        .row {
-          color: $black;
-          font-size: 20px;
-          font-weight: 500;
-          small {
-            font-weight: 700;
-            font-size: 14px;
-            color: $tertiary;
-          }
-        }
+      .digits {
+        flex-shrink: 0;
+        width: 250px;
       }
     }
   }

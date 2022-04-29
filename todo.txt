@@ -1,9 +1,22 @@
 TO DO
 - 404 page
-- landscape mode
 - desktop version
+- history back
+- Report a bug
+- Give a suggestion
+- Open source git
+- import games to playstore and ios store
+- add adsense
+- donate a cup of coffe
+
+HOMEPAGE
+- is and always will be free
+- social media
+- download apps
+- 
 
 DONE
+- landscape mode
 - Landing page
 - before leave
 - Play page (choose game)

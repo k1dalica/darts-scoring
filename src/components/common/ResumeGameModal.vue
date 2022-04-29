@@ -1,9 +1,10 @@
 <template>
   <vs-dialog
     :value="true"
-    width="550px"
+    auto-width
     not-center
     prevent-close
+    @close="$emit('cancel')"
   >
     <template #header>
       <h4 class="not-margin">

@@ -4,6 +4,7 @@
 
     <vs-alert
       v-if="hasAutoSave"
+      class="mb-20"
       gradient
     >
       <template #title>

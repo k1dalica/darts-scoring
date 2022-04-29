@@ -2,7 +2,9 @@
   <header :class="{ transparent }">
     <router-link :to="{ name: 'Home' }">
       <div id="logo">
-        <img src="@/assets/images/logo.png">
+        <LogoSvg
+          class="svg"
+        />
       </div>
     </router-link>
 
@@ -13,12 +15,18 @@
 </template>
 
 <script>
+import LogoSvg from '@/assets/images/logo.svg'
+
 export default {
   props: {
     transparent: {
       type: Boolean,
       default: false
     }
+  },
+
+  components: {
+    LogoSvg
   }
 }
 </script>
@@ -41,9 +49,8 @@ export default {
     }
     #logo {
       display: block;
-      img {
-        display: block;
-        height: 30px;
+      .svg {
+        height: 34px;
       }
     }
   }
